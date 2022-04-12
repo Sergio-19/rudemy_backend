@@ -16,5 +16,9 @@ router.post('/getcourse', courseController.getOneCourse)
 
 router.post('/getlessons', courseController.getLessons)
 
+router.post('/createlesson', courseController.createLesson)
+
+router.post('/search', courseController.searchCourses)
+
 
 module.exports = router

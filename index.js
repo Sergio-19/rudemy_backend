@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const userRouter = require('./routes/user.router');
 const authRouter = require('./routes/auth.router')
 const courseRouter = require('./routes/course.router')
+const mailRouter = require('./routes/mail.router')
 
 
 
@@ -14,11 +15,13 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.use('/api', userRouter)
+// app.use('/api', userRouter)
 
 app.use('/auth', authRouter)
 
 app.use('/course', courseRouter)
+
+app.use('/mail', mailRouter)
 
 
 
