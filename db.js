@@ -1,24 +1,25 @@
-const mysql = require('mysql')
+// const mysql = require('mysql')
 
-const connection = mysql.createConnection({
+// const connection = mysql.createConnection({
+
     // host: 'stended3.beget.tech',
     // user: 'stended3_rudemy',
     // password: 'Se549297',
     // database: 'stended3_rudemy'
 
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'rudemy_project'
-})
+//     host: 'localhost',
+//     user: 'root',
+//     password: 'root',
+//     database: 'rudemy_project'
+// })
 
-connection.connect((error)=> {
-    if(error){
-        return console.log('Ошибка подключения к базе данных!')
-    } else {
-        return console.log('Подключение успешно')
-    }
-})
+// connection.connect((error)=> {
+//     if(error){
+//         return console.log('Ошибка подключения к базе данных!')
+//     } else {
+//         return console.log('Подключение успешно')
+//     }
+// })
 
 
 // connection.end((error)=> {
@@ -30,4 +31,4 @@ connection.connect((error)=> {
 // })
 
 
-module.exports = connection
+// module.exports = connection
