@@ -362,6 +362,48 @@ class CourseController {
         })
     }
 
+    async addCourse(req, res) {
+        const {courseList, userId} = req.body
+
+        const connection = await mysql.createConnection({
+            host: 'stended3.beget.tech',
+            user: 'stended3_rudemy',
+            password: 'Se549297',
+            database: 'stended3_rudemy'
+        
+            // host: 'localhost',
+            // user: 'root',
+            // password: 'root',
+            // database: 'rudemy_project'
+        })
+
+        await connection.connect((error)=> {
+            if(error){
+                return console.log('Ошибка подключения к базе данных!')
+            } else {
+                return console.log('Подключение успешно')
+            }
+        })
+
+        connection.query(`UPDATE student_user SET courseList = '${courseList}' WHERE userId LIKE '${userId}'`, (error)=>{
+            if(error){
+                console.log(error)
+            } else {
+                console.log(`пользователю ${userId} добавлен курс`)
+                res.json({'message': `пользователю ${userId} добавлен курс`})
+            }
+        })
+
+        await connection.end((error)=> {
+            if(error){
+                console.log(`Ошибка ${error}`)
+            } else {
+                console.log('Подключение закрыто')
+            }
+        })
+       
+    }
+
 
 
 }
