@@ -18,7 +18,7 @@ const mysql = require('mysql')
 
 class AuthController {
 
-
+    //Регистрация
     async registration(req, res){
         try{
           const {email, password, name, userId} = req.body
@@ -33,15 +33,15 @@ class AuthController {
             const about = 'Не заполнено'
 
             const connection = await mysql.createConnection({
-                host: 'stended3.beget.tech',
-                user: 'stended3_rudemy',
-                password: 'Se549297',
-                database: 'stended3_rudemy'
+                // host: 'stended3.beget.tech',
+                // user: 'stended3_rudemy',
+                // password: 'Se549297',
+                // database: 'stended3_rudemy'
             
-                // host: 'localhost',
-                // user: 'root',
-                // password: 'root',
-                // database: 'rudemy_project'
+                host: 'localhost',
+                user: 'root',
+                password: 'root',
+                database: 'rudemy_project'
             })
 
             await connection.connect((error)=> {
@@ -73,10 +73,7 @@ class AuthController {
                             console.log('Учетная запись создана')
                          res.json({"message": 'Пользователь успешно зарегистрирован!', "token": token, 'userId': userId})   
                         })
-     
-            
        
-
         await connection.end((error)=> {
             if(error){
                 console.log(`Ошибка ${error}`)
@@ -87,20 +84,20 @@ class AuthController {
 
     }catch(e){console.log(e)}
         }
-
+        //Вход в систему (для пользователей)
     async login(req, res){
         try{
             const {email, password} = req.body
             const connection = await mysql.createConnection({
-                host: 'stended3.beget.tech',
-                user: 'stended3_rudemy',
-                password: 'Se549297',
-                database: 'stended3_rudemy'
+                // host: 'stended3.beget.tech',
+                // user: 'stended3_rudemy',
+                // password: 'Se549297',
+                // database: 'stended3_rudemy'
             
-                // host: 'localhost',
-                // user: 'root',
-                // password: 'root',
-                // database: 'rudemy_project'
+                host: 'localhost',
+                user: 'root',
+                password: 'root',
+                database: 'rudemy_project'
             })
 
             await connection.connect((error)=> {
@@ -132,20 +129,61 @@ class AuthController {
     }
 
 
+    //Получение всех преподавателей
+    async getAllTeachers(req, res){
+        const connection = await mysql.createConnection({
+            // host: 'stended3.beget.tech',
+            // user: 'stended3_rudemy',
+            // password: 'Se549297',
+            // database: 'stended3_rudemy'
+        
+            host: 'localhost',
+            user: 'root',
+            password: 'root',
+            database: 'rudemy_project'
+        })
+
+        await connection.connect((error)=> {
+            if(error){
+                return console.log('Ошибка подключения к базе данных!')
+            } else {
+                return console.log('Подключение успешно')
+            }
+        })
+
+        await connection.query(`SELECT * FROM teacher_user`, (error, result)=> {
+            if(error){
+                console.log(error)
+            } else {
+                res.json({"teachers": result})
+            }
+        })
+
+        await connection.end((error)=> {
+            if(error){
+                console.log(`Ошибка ${error}`)
+            } else {
+                console.log('Подключение закрыто')
+            }
+        })
+    }
+
+
+    //Изменение карточки преподавателя
     async teacherUpdate(req, res){
         try{
-            const {fullname, students, courses, photo, speciality, rating, about, userId} = req.body
+            const {fullname, students, courses, photo, speciality, rating, about, userId, id, name, email, password, courseList} = req.body.teacher
 
             const connection = await mysql.createConnection({
-                host: 'stended3.beget.tech',
-                user: 'stended3_rudemy',
-                password: 'Se549297',
-                database: 'stended3_rudemy'
+                // host: 'stended3.beget.tech',
+                // user: 'stended3_rudemy',
+                // password: 'Se549297',
+                // database: 'stended3_rudemy'
             
-                // host: 'localhost',
-                // user: 'root',
-                // password: 'root',
-                // database: 'rudemy_project'
+                host: 'localhost',
+                user: 'root',
+                password: 'root',
+                database: 'rudemy_project'
             })
 
             await connection.connect((error)=> {
@@ -155,15 +193,20 @@ class AuthController {
                     return console.log('Подключение успешно')
                 }
             })
+    
+            // connection.query(`SELECT * FROM teacher_user WHERE userId LIKE 'user_ID_83ujflhulpafy7'`, (error, result)=>{
+            //     if(error){console.log(error)}else{console.log(result)}
+            // })
            
             
             connection.query(`UPDATE teacher_user SET fullname = '${fullname}', students = '${students}', courses = '${courses}', photo = '${photo}',
-            speciality = '${speciality}', rating = '${rating}', about = '${about}' WHERE userId LIKE '${userId}'`, (error, result)=>{
+            speciality = '${speciality}', rating = '${rating}', about = '${about}', id = '${id}', name = '${name}', email = '${email}',
+            password = '${password}', userId = '${userId}', courseList = '${courseList}' WHERE userId LIKE '${userId}'`, (error, result)=>{
                 if(error){
                     console.log(error)
                 } else {
-                    console.log(result)
-                    res.json({"userId": userId, "message": "Карточка преподавателя успешно заполнена!"})
+                    console.log(req.body.teacher)
+                    res.json({"teacher": req.body.teacher, "message": "Карточка преподавателя успешно отредактирована!"})
                 }
             })
             await connection.end((error)=> {
@@ -182,15 +225,15 @@ class AuthController {
         const userId = req.body.userId
 
         const connection = await mysql.createConnection({
-            host: 'stended3.beget.tech',
-            user: 'stended3_rudemy',
-            password: 'Se549297',
-            database: 'stended3_rudemy'
+            // host: 'stended3.beget.tech',
+            // user: 'stended3_rudemy',
+            // password: 'Se549297',
+            // database: 'stended3_rudemy'
         
-            // host: 'localhost',
-            // user: 'root',
-            // password: 'root',
-            // database: 'rudemy_project'
+            host: 'localhost',
+            user: 'root',
+            password: 'root',
+            database: 'rudemy_project'
         })
 
         await connection.connect((error)=> {
@@ -219,6 +262,8 @@ class AuthController {
         })
 
     }
+
+    
 
 
 

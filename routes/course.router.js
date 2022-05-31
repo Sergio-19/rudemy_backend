@@ -22,5 +22,7 @@ router.post('/search', courseController.searchCourses)
 
 router.post('/addcourse', courseController.addCourse)
 
+router.post('/updatecourse', courseController.updateCourse)
+
 
 module.exports = router
