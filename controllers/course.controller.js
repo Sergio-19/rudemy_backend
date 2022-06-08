@@ -14,6 +14,9 @@
 //     database: 'rudemy_project'
 // })
 
+
+
+
 class CourseController {
 
   async  createCourse(req, res) {
@@ -65,10 +68,68 @@ class CourseController {
                 console.log('Подключение закрыто')
             }
         })
-
-
-
     }
+
+
+
+    //Функция удаления курса из системы, удаление таблицы с видео, удаление записи из courses_present
+
+    async deleteCourse(req, res) {
+        const {courseId} = req.body
+        const connection =  await mysql.createConnection({
+            // host: 'stended3.beget.tech',
+            // user: 'stended3_rudemy',
+            // password: 'Se549297',
+            // database: 'stended3_rudemy'
+        
+            host: 'localhost',
+            user: 'root',
+            password: 'root',
+            database: 'rudemy_project'
+        })
+
+        await connection.connect((error)=> {
+            if(error){
+                return console.log('Ошибка подключения к базе данных!')
+            } else {
+                return console.log('Подключение успешно')
+            }
+        })
+
+
+        await connection.query(`DROP TABLE ${courseId}_video`, (error)=>{
+            if(error){
+                console.log(error)
+            } else {
+               console.log('Таблица удалена')
+                    
+                 }
+                })
+
+        await connection.query(`DELETE FROM courses_present WHERE courseId = '${courseId}'`, (error)=>{
+                    if(error){
+                        console.log(error)
+                    } else {
+                       console.log('Запись из таблицы удалена')
+                            
+                         }
+                        })        
+
+
+     
+
+        res.json({"message": "Курс был удалён из системы!" })
+
+        await connection.end((error)=> {
+            if(error){
+                console.log(`Ошибка ${error}`)
+            } else {
+                console.log('Подключение закрыто')
+            }
+        })
+    }
+
+
 
     async updateCourse(req, res) {
         const {logo, mock, fullname, shortdescription, rating, authorId, language, creationDate, price, oldPrice, students, skills, knowledge, description, courseId, category, subCategory, topics, author, reviews} = req.body.course
@@ -240,9 +301,7 @@ class CourseController {
     }
 
  async   getOneCourse(req, res){
-        const courseId = req.body.courseId
-
-        
+        const courseId = req.body.courseId   
         const connection = await mysql.createConnection({
             // host: 'stended3.beget.tech',
             // user: 'stended3_rudemy',
@@ -285,7 +344,7 @@ class CourseController {
 
   async  getTeacher(req, res) {
         const id = req.body.authorId
-
+        
         
         const connection = await mysql.createConnection({
             // host: 'stended3.beget.tech',
@@ -309,7 +368,7 @@ class CourseController {
 
        await connection.query(`SELECT * FROM teacher_user WHERE userId = '${id}'`, (error, result)=> {
             if(error) {console.log(error)} else {
-                res.json({"author": result})
+                res.json({"author": result[0]})
             }
         })
 

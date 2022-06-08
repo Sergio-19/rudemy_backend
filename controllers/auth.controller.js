@@ -84,6 +84,8 @@ class AuthController {
 
     }catch(e){console.log(e)}
         }
+
+
         //Вход в систему (для пользователей)
     async login(req, res){
         try{
@@ -194,11 +196,8 @@ class AuthController {
                 }
             })
     
-            // connection.query(`SELECT * FROM teacher_user WHERE userId LIKE 'user_ID_83ujflhulpafy7'`, (error, result)=>{
-            //     if(error){console.log(error)}else{console.log(result)}
-            // })
            
-            
+         
             connection.query(`UPDATE teacher_user SET fullname = '${fullname}', students = '${students}', courses = '${courses}', photo = '${photo}',
             speciality = '${speciality}', rating = '${rating}', about = '${about}', id = '${id}', name = '${name}', email = '${email}',
             password = '${password}', userId = '${userId}', courseList = '${courseList}' WHERE userId LIKE '${userId}'`, (error, result)=>{
@@ -262,6 +261,9 @@ class AuthController {
         })
 
     }
+
+
+   
 
     
 
