@@ -53,10 +53,16 @@ class AuthController {
             })
 
           await connection.query(`SELECT * FROM student_user WHERE email LIKE '${email}'`, (error, result)=>{
-           
-            if(result.length > 0){
+              if(error){
+                  console.log(error)
+              } else {
+                 if(result.length > 0){
+                
                 return res.json({"message": 'Пользователь с таким email уже зарегистрирован'})
-            }  })
+            }  
+              }
+           
+             })
             
             
            await  connection.query(`INSERT INTO student_user (name, email, password, userId, courseList) VALUES ('${name}', '${email}', '${password}', '${userId}', 'courses')`, (error)=>{
@@ -203,9 +209,11 @@ class AuthController {
             password = '${password}', userId = '${userId}', courseList = '${courseList}' WHERE userId LIKE '${userId}'`, (error, result)=>{
                 if(error){
                     console.log(error)
+                    res.json({"message": 'Ошибка при редактировании карточки преподавателя', "success": false})
                 } else {
                     console.log(req.body.teacher)
-                    res.json({"teacher": req.body.teacher, "message": "Карточка преподавателя успешно отредактирована!"})
+                    console.log("Карточка преподавателя успешно отредактирована!")
+                    res.json({"teacher": req.body.teacher, "message": "Карточка преподавателя успешно отредактирована!", "success": true})
                 }
             })
             await connection.end((error)=> {
