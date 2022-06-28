@@ -20,7 +20,7 @@
 class CourseController {
 
   async  createCourse(req, res) {
-        const {logo, fullname, shortDescription, rating, authorId, language, creationDate, price, oldPrice, students, skills, knowledge, description, courseId, category, subCategory, topics, author} = req.body
+        const {logo, fullname, shortDescription, rating, authorId, language, creationDate, price, oldPrice, students, skills, knowledge, description, courseId, category, subCategory, topics, author, mock, reviews} = req.body
 
         const connection =  await mysql.createConnection({
             // host: 'stended3.beget.tech',
@@ -42,7 +42,7 @@ class CourseController {
             }
         })
 
-      await  connection.query(`INSERT INTO courses_present (logo, fullname, shortdescription, rating, authorId, language, creationDate, price, oldPrice, students, skills, knowledge, description, courseId, category, subCategory, topics, author) VALUES ('${logo}', '${fullname}', '${shortDescription}', '${rating}', '${authorId}', '${language}', '${creationDate}', '${price}', '${oldPrice}', '${students}', '${skills}', '${knowledge}', '${description}', '${courseId}', '${category}', '${subCategory}', '${topics}', '${author}')`, (error, result)=>{
+      await  connection.query(`INSERT INTO courses_present (logo, fullname, shortdescription, rating, authorId, language, creationDate, price, oldPrice, students, skills, knowledge, description, courseId, category, subCategory, topics, author, mock, reviews) VALUES ('${logo}', '${fullname}', '${shortDescription}', '${rating}', '${authorId}', '${language}', '${creationDate}', '${price}', '${oldPrice}', '${students}', '${skills}', '${knowledge}', '${description}', '${courseId}', '${category}', '${subCategory}', '${topics}', '${author}', '${mock}', '${reviews}')`, (error, result)=>{
             if(error){
                 console.log(error)
             } else {
@@ -447,7 +447,7 @@ class CourseController {
             }
         })
 
-            connection.query(`SELECT * FROM courses_present WHERE fullname LIKE '%${query}%' OR description LIKE '%${query}%'`, (error, result)=>{
+            connection.query(`SELECT * FROM courses_present WHERE fullname LIKE '%${query}%' OR description LIKE '%${query}%' OR author LIKE '%${query}%'`, (error, result)=>{
                 if(error){console.log(error)} else {
                     if(result.length > 0){
                         res.json({'courses': result})
@@ -495,7 +495,7 @@ class CourseController {
                 console.log(error)
             } else {
                 console.log(`пользователю ${userId} добавлен курс`)
-                res.json({'message': `пользователю ${userId} добавлен курс`})
+                res.json({'message': `Список курсов пользователя изменён!`})
             }
         })
 

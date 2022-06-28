@@ -24,13 +24,13 @@ class AuthController {
           const {email, password, name, userId} = req.body
           
 
-            const fullname = 'Не заполнено'
-            const students = 0
-            const courses = 0
-            const photo = 'Ссылка на фото'
-            const speciality = 'Не заполнено'
-            const rating = 0
-            const about = 'Не заполнено'
+            const fullname = req.body.fullname || 'Не заполнено'
+            const students = req.body.students || 0
+            const courses = req.body.courses || 0
+            const photo =  req.body.photo || 'Ссылка на фото'
+            const speciality =  req.body.speciality || 'Не заполнено'
+            const rating = req.body.rating || 5
+            const about = req.body.about || 'Не заполнено'
 
             const connection = await mysql.createConnection({
                 // host: 'stended3.beget.tech',
@@ -53,18 +53,24 @@ class AuthController {
             })
 
           await connection.query(`SELECT * FROM student_user WHERE email LIKE '${email}'`, (error, result)=>{
-           
-            if(result.length > 0){
+              if(error){
+                  console.log(error)
+              } else {
+                 if(result.length > 0){
+                
                 return res.json({"message": 'Пользователь с таким email уже зарегистрирован'})
-            }  })
+            }  
+              }
+           
+             })
             
             
-           await  connection.query(`INSERT INTO student_user (name, email, password, userId, courseList) VALUES ('${name}', '${email}', '${password}', '${userId}', 'courses#')`, (error)=>{
+           await  connection.query(`INSERT INTO student_user (name, email, password, userId, courseList) VALUES ('${name}', '${email}', '${password}', '${userId}', 'courses')`, (error)=>{
             
                     })
 
                     await  connection.query(`INSERT INTO teacher_user (name, email, password, userId, fullname, students, courses, photo, speciality, rating, about, courseList) VALUES ('${name}', '${email}', '${password}', '${userId}', '${fullname}', '${students}', '${courses}', 
-                    '${photo}', '${speciality}', '${rating}', '${about}', 'courses#')`, (error)=> {
+                    '${photo}', '${speciality}', '${rating}', '${about}', 'courses')`, (error)=> {
                         if(error){console.log(error)}else{console.log('Карточка преподавателя создана')}
                     })
 
@@ -203,9 +209,11 @@ class AuthController {
             password = '${password}', userId = '${userId}', courseList = '${courseList}' WHERE userId LIKE '${userId}'`, (error, result)=>{
                 if(error){
                     console.log(error)
+                    res.json({"message": 'Ошибка при редактировании карточки преподавателя', "success": false})
                 } else {
                     console.log(req.body.teacher)
-                    res.json({"teacher": req.body.teacher, "message": "Карточка преподавателя успешно отредактирована!"})
+                    console.log("Карточка преподавателя успешно отредактирована!")
+                    res.json({"teacher": req.body.teacher, "message": "Карточка преподавателя успешно отредактирована!", "success": true})
                 }
             })
             await connection.end((error)=> {
