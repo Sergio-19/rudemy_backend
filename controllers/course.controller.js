@@ -447,7 +447,7 @@ class CourseController {
             }
         })
 
-            connection.query(`SELECT * FROM courses_present WHERE fullname LIKE '%${query}%' OR description LIKE '%${query}%'`, (error, result)=>{
+            connection.query(`SELECT * FROM courses_present WHERE fullname LIKE '%${query}%' OR description LIKE '%${query}%' OR author LIKE '%${query}%'`, (error, result)=>{
                 if(error){console.log(error)} else {
                     if(result.length > 0){
                         res.json({'courses': result})
@@ -495,7 +495,7 @@ class CourseController {
                 console.log(error)
             } else {
                 console.log(`пользователю ${userId} добавлен курс`)
-                res.json({'message': `пользователю ${userId} добавлен курс`})
+                res.json({'message': `Список курсов пользователя изменён!`})
             }
         })
 

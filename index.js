@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const authRouter = require('./routes/auth.router')
 const courseRouter = require('./routes/course.router')
 const registrationRouter = require('./routes/registration.router')
+const studentRouter = require('./routes/student.router')
 
 
 
@@ -22,6 +23,8 @@ app.use('/auth', authRouter)
 app.use('/course', courseRouter)
 
 app.use('/registration', registrationRouter)
+
+app.use('/students', studentRouter)
 
 
 
