@@ -5,6 +5,7 @@ const authRouter = require('./routes/auth.router')
 const courseRouter = require('./routes/course.router')
 const registrationRouter = require('./routes/registration.router')
 const studentRouter = require('./routes/student.router')
+const authAdminRouter = require('./routes/auth.admin.router')
 
 
 
@@ -25,6 +26,10 @@ app.use('/course', courseRouter)
 app.use('/registration', registrationRouter)
 
 app.use('/students', studentRouter)
+
+app.use('/admin', authAdminRouter)
+
+
 
 
 
