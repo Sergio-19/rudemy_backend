@@ -19,15 +19,15 @@ class RegistrationController {
             // res.json({"message": 'Валидный E-mail'})
 
             const connection = await mysql.createConnection({
-                // host: 'stended3.beget.tech',
-                // user: 'stended3_rudemy',
-                // password: 'Se549297',
-                // database: 'stended3_rudemy'
+                host: 'stended3.beget.tech',
+                user: 'stended3_rudemy',
+                password: 'Se549297',
+                database: 'stended3_rudemy'
             
-                host: 'localhost',
-                user: 'root',
-                password: 'root',
-                database: 'rudemy_project'
+                // host: 'localhost',
+                // user: 'root',
+                // password: 'root',
+                // database: 'rudemy_project'
             })
 
             await connection.connect((error)=> {
@@ -79,15 +79,15 @@ class RegistrationController {
             const about = req.body.about || 'Не заполнено'
 
             const connection = await mysql.createConnection({
-                // host: 'stended3.beget.tech',
-                // user: 'stended3_rudemy',
-                // password: 'Se549297',
-                // database: 'stended3_rudemy'
+                host: 'stended3.beget.tech',
+                user: 'stended3_rudemy',
+                password: 'Se549297',
+                database: 'stended3_rudemy'
             
-                host: 'localhost',
-                user: 'root',
-                password: 'root',
-                database: 'rudemy_project'
+                // host: 'localhost',
+                // user: 'root',
+                // password: 'root',
+                // database: 'rudemy_project'
             })
 
             await connection.connect((error)=> {
@@ -102,7 +102,7 @@ class RegistrationController {
                                    VALUES ('${name}', '${email}', '${password}', '${userId}', 'courses')`, (error)=>{
                                   if(error) {
                                       console.log(error)
-                                      res.json({"message": 'Ошибка при записи в таблицу teacher_user'})
+                                      res.json({"message": 'Ошибка при записи в таблицу student_user'})
                                   } else {console.log( 'Новый пользователь записан в таблицу student_user')} 
             })
 
