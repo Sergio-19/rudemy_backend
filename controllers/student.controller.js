@@ -1,20 +1,15 @@
 const mysql = require('mysql')
-
+const config = require('../config')
 
 class StudentController {
 
     async getAllStudents(req, res) {
 
         const connection = await mysql.createConnection({
-            // host: 'stended3.beget.tech',
-            // user: 'stended3_rudemy',
-            // password: 'Se549297',
-            // database: 'stended3_rudemy'
-        
-            host: 'localhost',
-            user: 'root',
-            password: 'root',
-            database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
         })
 
         await connection.connect((error)=> {

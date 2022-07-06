@@ -1,4 +1,6 @@
 const mysql = require('mysql')
+const config = require('../config')
+
 
 function validateEmail(email) {
     return String(email)
@@ -19,15 +21,10 @@ class RegistrationController {
             // res.json({"message": 'Валидный E-mail'})
 
             const connection = await mysql.createConnection({
-                host: 'stended3.beget.tech',
-                user: 'stended3_rudemy',
-                password: 'Se549297',
-                database: 'stended3_rudemy'
-            
-                // host: 'localhost',
-                // user: 'root',
-                // password: 'root',
-                // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
             })
 
             await connection.connect((error)=> {
@@ -79,15 +76,10 @@ class RegistrationController {
             const about = req.body.about || 'Не заполнено'
 
             const connection = await mysql.createConnection({
-                host: 'stended3.beget.tech',
-                user: 'stended3_rudemy',
-                password: 'Se549297',
-                database: 'stended3_rudemy'
-            
-                // host: 'localhost',
-                // user: 'root',
-                // password: 'root',
-                // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
             })
 
             await connection.connect((error)=> {

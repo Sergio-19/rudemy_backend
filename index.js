@@ -7,10 +7,14 @@ const registrationRouter = require('./routes/registration.router')
 const studentRouter = require('./routes/student.router')
 const authAdminRouter = require('./routes/auth.admin.router')
 
+const config = require('./config')
 
 
 
-const PORT = process.env.PORT || 5000;
+
+
+
+const PORT = process.env.PORT || config.port;
 
 const app = express()
 app.use(cors())
