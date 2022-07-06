@@ -6,15 +6,15 @@ class StudentController {
     async getAllStudents(req, res) {
 
         const connection = await mysql.createConnection({
-            // host: 'stended3.beget.tech',
-            // user: 'stended3_rudemy',
-            // password: 'Se549297',
-            // database: 'stended3_rudemy'
+            host: 'stended3.beget.tech',
+            user: 'stended3_rudemy',
+            password: 'Se549297',
+            database: 'stended3_rudemy'
         
-            host: 'localhost',
-            user: 'root',
-            password: 'root',
-            database: 'rudemy_project'
+            // host: 'localhost',
+            // user: 'root',
+            // password: 'root',
+            // database: 'rudemy_project'
         })
 
         await connection.connect((error)=> {
