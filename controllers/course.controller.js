@@ -1,6 +1,7 @@
     // const db = require('../db')
 
     const mysql = require('mysql')
+    const config = require('../config')
 
 // const connection = mysql.createConnection({
     // host: 'stended3.beget.tech',
@@ -20,18 +21,13 @@
 class CourseController {
 
   async  createCourse(req, res) {
-        const {logo, fullname, shortDescription, rating, authorId, language, creationDate, price, oldPrice, students, skills, knowledge, description, courseId, category, subCategory, topics, author, mock, reviews} = req.body
+        const {logo, fullname, shortdescription, rating, authorId, language, creationDate, price, oldPrice, students, skills, knowledge, description, courseId, category, subCategory, topics, author, mock, reviews} = req.body
 
         const connection =  await mysql.createConnection({
-            host: 'stended3.beget.tech',
-            user: 'stended3_rudemy',
-            password: 'Se549297',
-            database: 'stended3_rudemy'
-        
-            // host: 'localhost',
-            // user: 'root',
-            // password: 'root',
-            // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
         })
 
         await connection.connect((error)=> {
@@ -42,21 +38,23 @@ class CourseController {
             }
         })
 
-      await  connection.query(`INSERT INTO courses_present (logo, fullname, shortdescription, rating, authorId, language, creationDate, price, oldPrice, students, skills, knowledge, description, courseId, category, subCategory, topics, author, mock, reviews) VALUES ('${logo}', '${fullname}', '${shortDescription}', '${rating}', '${authorId}', '${language}', '${creationDate}', '${price}', '${oldPrice}', '${students}', '${skills}', '${knowledge}', '${description}', '${courseId}', '${category}', '${subCategory}', '${topics}', '${author}', '${mock}', '${reviews}')`, (error, result)=>{
+      await  connection.query(`INSERT INTO courses_present (logo, fullname, shortdescription, rating, authorId, language, creationDate, price, oldPrice, students, skills, knowledge, description, courseId, category, subCategory, topics, author, mock, reviews) VALUES ('${logo}', '${fullname}', '${shortdescription}', '${rating}', '${authorId}', '${language}', '${creationDate}', '${price}', '${oldPrice}', '${students}', '${skills}', '${knowledge}', '${description}', '${courseId}', '${category}', '${subCategory}', '${topics}', '${author}', '${mock}', '${reviews}')`, (error, result)=>{
             if(error){
                 console.log(error)
+                res.json({'message': `Ошибка при записи в таблицу courses_present `, "success": false})
             } else {
                console.log('Запись создана')
+               res.json({'message': `Карточка курса в таблице courses_present создана`, "success": true})
               
             }
            
             
         })
 
-        connection.query(`CREATE TABLE rudemy_project.${courseId}_video ( id INT(11) NOT NULL AUTO_INCREMENT , title VARCHAR(300) NOT NULL , link VARCHAR(300) NOT NULL , PRIMARY KEY (id)) ENGINE = InnoDB`, (error)=>{
+       await connection.query(`CREATE TABLE rudemy_project.${courseId}_video ( id INT(11) NOT NULL AUTO_INCREMENT , title VARCHAR(300) NOT NULL , link VARCHAR(300) NOT NULL , PRIMARY KEY (id)) ENGINE = InnoDB`, (error)=>{
             if(error){console.log(error)} else {
                 console.log (`Таблица ${courseId}_video создана`)
-                res.json({'message': `Курс создан, Таблица ${courseId}_video создана`})
+                // res.json({'message': `Курс создан, Таблица ${courseId}_video создана`})
             }
         })
       
@@ -77,15 +75,10 @@ class CourseController {
     async deleteCourse(req, res) {
         const {courseId} = req.body
         const connection =  await mysql.createConnection({
-            host: 'stended3.beget.tech',
-            user: 'stended3_rudemy',
-            password: 'Se549297',
-            database: 'stended3_rudemy'
-        
-            // host: 'localhost',
-            // user: 'root',
-            // password: 'root',
-            // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
         })
 
         await connection.connect((error)=> {
@@ -135,15 +128,10 @@ class CourseController {
         const {logo, mock, fullname, shortdescription, rating, authorId, language, creationDate, price, oldPrice, students, skills, knowledge, description, courseId, category, subCategory, topics, author, reviews} = req.body.course
        
         const connection =  await mysql.createConnection({
-            host: 'stended3.beget.tech',
-            user: 'stended3_rudemy',
-            password: 'Se549297',
-            database: 'stended3_rudemy'
-        
-            // host: 'localhost',
-            // user: 'root',
-            // password: 'root',
-            // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
         })
 
         await connection.connect((error)=> {
@@ -181,15 +169,10 @@ class CourseController {
         const {title, link} = req.body
 
         const connection =  await mysql.createConnection({
-            host: 'stended3.beget.tech',
-            user: 'stended3_rudemy',
-            password: 'Se549297',
-            database: 'stended3_rudemy'
-        
-            // host: 'localhost',
-            // user: 'root',
-            // password: 'root',
-            // database: 'rudemy_project'
+            host: config.host,
+            user: config.user,
+            password: config.password,
+            database: config.database
         })
 
         await connection.connect((error)=> {
@@ -203,7 +186,8 @@ class CourseController {
         await connection.query(`INSERT INTO ${courseId}_video (title, link) VALUES ('${title}', '${link}')`, (error)=>{
             if(error){
                 console.log(error)
-            } else {res.json({message: `Урок - ${title} создан`})}
+                res.json({message: `Ошибка при создании урока ${title}`, success: false})
+            } else {res.json({message: `Урок - ${title} создан`, success: true})}
         })
 
         await connection.end((error)=> {
@@ -224,15 +208,10 @@ class CourseController {
       const category = req.body.category
 
       const connection =  await mysql.createConnection({
-        host: 'stended3.beget.tech',
-        user: 'stended3_rudemy',
-        password: 'Se549297',
-        database: 'stended3_rudemy'
-    
-        // host: 'localhost',
-        // user: 'root',
-        // password: 'root',
-        // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
     })
       
 
@@ -264,15 +243,10 @@ class CourseController {
     async getAllCourses(req, res) {
 
         const connection = await mysql.createConnection({
-            host: 'stended3.beget.tech',
-            user: 'stended3_rudemy',
-            password: 'Se549297',
-            database: 'stended3_rudemy'
-        
-            // host: 'localhost',
-            // user: 'root',
-            // password: 'root',
-            // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
         })
 
         await connection.connect((error)=> {
@@ -303,15 +277,10 @@ class CourseController {
  async   getOneCourse(req, res){
         const courseId = req.body.courseId   
         const connection = await mysql.createConnection({
-            host: 'stended3.beget.tech',
-            user: 'stended3_rudemy',
-            password: 'Se549297',
-            database: 'stended3_rudemy'
-        
-            // host: 'localhost',
-            // user: 'root',
-            // password: 'root',
-            // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
         })
 
         await connection.connect((error)=> {
@@ -347,15 +316,10 @@ class CourseController {
         
         
         const connection = await mysql.createConnection({
-            host: 'stended3.beget.tech',
-            user: 'stended3_rudemy',
-            password: 'Se549297',
-            database: 'stended3_rudemy'
-        
-            // host: 'localhost',
-            // user: 'root',
-            // password: 'root',
-            // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
         })
 
         await connection.connect((error)=> {
@@ -387,15 +351,10 @@ class CourseController {
 
         
         const connection = await mysql.createConnection({
-            host: 'stended3.beget.tech',
-            user: 'stended3_rudemy',
-            password: 'Se549297',
-            database: 'stended3_rudemy'
-        
-            // host: 'localhost',
-            // user: 'root',
-            // password: 'root',
-            // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
         })
 
         await connection.connect((error)=> {
@@ -428,15 +387,10 @@ class CourseController {
     async searchCourses(req, res) {
         const query = req.body.query
         const connection = await mysql.createConnection({
-            host: 'stended3.beget.tech',
-            user: 'stended3_rudemy',
-            password: 'Se549297',
-            database: 'stended3_rudemy'
-        
-            // host: 'localhost',
-            // user: 'root',
-            // password: 'root',
-            // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
         })
 
         await connection.connect((error)=> {
@@ -471,15 +425,10 @@ class CourseController {
         const {courseList, userId} = req.body
 
         const connection = await mysql.createConnection({
-            host: 'stended3.beget.tech',
-            user: 'stended3_rudemy',
-            password: 'Se549297',
-            database: 'stended3_rudemy'
-        
-            // host: 'localhost',
-            // user: 'root',
-            // password: 'root',
-            // database: 'rudemy_project'
+                host: config.host,
+                user: config.user,
+                password: config.password,
+                database: config.database
         })
 
         await connection.connect((error)=> {
